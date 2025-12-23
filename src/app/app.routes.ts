@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {
-        path: ''
-    }
+  {
+    path: '',
+    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
+  },
 ];

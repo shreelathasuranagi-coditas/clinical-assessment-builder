@@ -1,1 +1,6 @@
-<p>paginator works!</p>
+<mat-paginator
+  [length]="length()"
+  [pageSize]="pageSize()"
+  (page)="pageChange.emit($event)"
+>
+</mat-paginator>

@@ -1,1 +1,39 @@
-<p>input-renderer works!</p>
+<!-- TEXT / NUMBER -->
+@if (question().type === 'text' || question().type === 'number') {
+  <mat-form-field appearance="outline" class="full-width">
+    <input
+      matInput
+      [type]="question().type"
+      [placeholder]="question().placeholder!"
+      [value]="answer() ?? ''"
+      
+      />
+  </mat-form-field>
+}
+
+
+<!-- RADIO -->
+@if (question().type === 'radio') {
+  <mat-radio-group
+    [value]="answer()"
+    (change)="onRadioChange($event.value)">
+    @for (opt of question().options; track opt) {
+      <mat-radio-button [value]="opt">
+        {{ opt }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
+}
+
+
+
+<!-- CHECKBOX -->
+@if (question().type === 'checkbox') {
+  @for (opt of question().options; track opt) {
+    <mat-checkbox
+      [checked]="isChecked(opt)"
+      (change)="onCheckboxChange(opt, $event.checked)">
+      {{ opt }}
+    </mat-checkbox>
+  }
+}

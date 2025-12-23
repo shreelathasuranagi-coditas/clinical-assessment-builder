@@ -1,1 +1,11 @@
-<p>custom-input works!</p>
+<mat-form-field appearance="outline" class="full-width">
+  <input
+    matInput
+    [type]="type()"
+    [placeholder]="placeholder() || ''"
+    [value]="value()"
+    [disabled]="disabled()"
+    (input)="handleInput($event)"
+    (blur)="onTouched()"
+  />
+</mat-form-field>

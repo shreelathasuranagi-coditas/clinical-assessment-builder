@@ -6,6 +6,20 @@
   min-height: 100vh;
   padding: 16px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+  }
 }
 
 .login-form {
@@ -14,24 +28,33 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 40px 32px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 48px 40px;
+  border-radius: 16px;
   background-color: #ffffff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+              0 0 1px rgba(0, 0, 0, 0.1);
   animation: slideInUp 0.6s ease-out;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
 
   @media (max-width: 600px) {
-    padding: 24px 20px;
+    padding: 32px 24px;
     gap: 20px;
     max-width: 100%;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 400px) {
+    padding: 24px 20px;
   }
 }
 
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -41,34 +64,56 @@
 
 .form-header {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
 .form-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.5px;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .form-subtitle {
-  font-size: 14px;
+  font-size: 15px;
   color: #6c757d;
   margin: 0;
   font-weight: 400;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .form-fields {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  animation: fadeIn 0.8s ease-out 0.3s both;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  &:focus-within {
+    app-custom-input {
+      filter: drop-shadow(0 4px 12px rgba(102, 126, 234, 0.15));
+    }
+  }
 }
 
 .form-options {
@@ -76,6 +121,14 @@
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  animation: fadeIn 0.8s ease-out 0.4s both;
+  gap: 12px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
 }
 
 .remember-me {
@@ -85,11 +138,25 @@
   cursor: pointer;
   color: #495057;
   font-weight: 500;
+  user-select: none;
+  transition: all 0.2s ease;
 
   input[type="checkbox"] {
     cursor: pointer;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: 2px solid #667eea;
+      outline-offset: 2px;
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+    }
   }
 
   &:hover {
@@ -101,34 +168,68 @@
   color: #667eea;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 
   &:hover {
     color: #764ba2;
     text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 480px) {
+    align-self: flex-end;
   }
 }
 
 .form-footer {
   text-align: center;
   border-top: 1px solid #e9ecef;
-  padding-top: 20px;
+  padding-top: 24px;
+  animation: fadeIn 0.8s ease-out 0.5s both;
 }
 
 .signup-text {
   font-size: 14px;
   color: #6c757d;
   margin: 0;
+  line-height: 1.6;
 
   .signup-link {
     color: #667eea;
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+    }
 
     &:hover {
       color: #764ba2;
-      text-decoration: underline;
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &:focus {
+      outline: 2px solid #667eea;
+      outline-offset: 2px;
+      border-radius: 4px;
     }
   }
 }

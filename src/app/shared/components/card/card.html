@@ -1,0 +1,17 @@
+@if (question()) {
+  <mat-card class="question-card">
+
+    <mat-card-title class="question-title">
+      {{ question()!.question }} 
+    </mat-card-title>
+
+    <mat-card-content>
+      <app-input-renderer  
+        [question]="question()!"
+        (answerChange)="onAnswerChange($event)">
+      </app-input-renderer>
+    </mat-card-content>
+
+  </mat-card>
+}
+

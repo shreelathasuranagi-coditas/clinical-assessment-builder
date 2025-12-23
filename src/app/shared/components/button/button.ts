@@ -8,11 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './button.scss',
 })
 export class Button {
-    primary = input<boolean>(false);
+  primary = input<boolean>(false);
   secondary = input<boolean>(false);
   disabled = input<boolean>(false);
-  loading=signal<boolean>(false);
-   type = input<'button' | 'submit'>('button');
+  loading = signal<boolean>(false);
+  type = input<'button' | 'submit'>('button');
   color = input<'primary' | 'accent' | 'warn'>('primary');
   clicked = output<void>();
 }

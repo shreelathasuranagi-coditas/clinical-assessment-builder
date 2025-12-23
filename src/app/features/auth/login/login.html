@@ -1,0 +1,31 @@
+<div class="login-form-container">
+  <form class="login-form" (ngSubmit)="onLoginClick()" [formGroup]="loginForm" >
+    <div class="form-header">
+      <h1 class="form-title">Welcome Back</h1>
+      <p class="form-subtitle">Sign in to your account</p>
+    </div>
+    
+    <div class="form-fields">
+      <div class="input-group">
+        <input [placeholder]="'Username'" [type]="'text'" formControlName="username">
+      </div>
+      <div class="input-group">
+        <input [placeholder]="'Password'" [type]="'password'" formControlName="password">
+      </div>
+    </div>
+
+    <div class="form-options">
+      <label class="remember-me">
+        <input type="checkbox" />
+        <span>Remember me</span>
+      </label>
+      <a href="#" class="forgot-password">Forgot Password?</a>
+    </div>
+
+    <button>Sign In</button>
+
+    <div class="form-footer">
+      <p class="signup-text">Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+    </div>
+  </form>
+</div>

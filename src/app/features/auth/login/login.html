@@ -1,31 +1,40 @@
 <div class="login-form-container">
-  <form class="login-form" (ngSubmit)="onLoginClick()" [formGroup]="loginForm" >
+  <form class="login-form" (ngSubmit)="onLoginClick()" [formGroup]="loginForm" novalidate>
     <div class="form-header">
       <h1 class="form-title">Welcome Back</h1>
-      <p class="form-subtitle">Sign in to your account</p>
+      <p class="form-subtitle">Sign in to your account to continue</p>
     </div>
     
     <div class="form-fields">
       <div class="input-group">
-        <input [placeholder]="'Username'" [type]="'text'" formControlName="username">
+        <app-custom-input 
+          [placeholder]="'Username'" 
+          formControlName="username"
+          [attr.aria-label]="'Username'">
+        </app-custom-input>
       </div>
       <div class="input-group">
-        <input [placeholder]="'Password'" [type]="'password'" formControlName="password">
+        <app-custom-input 
+          [placeholder]="'Password'" 
+          [type]="'password'" 
+          formControlName="password"
+          [attr.aria-label]="'Password'">
+        </app-custom-input>
       </div>
     </div>
 
     <div class="form-options">
       <label class="remember-me">
-        <input type="checkbox" />
+        <input type="checkbox" aria-label="Remember me" />
         <span>Remember me</span>
       </label>
-      <a href="#" class="forgot-password">Forgot Password?</a>
+      <a href="#" class="forgot-password" [attr.aria-label]="'Forgot Password link'">Forgot Password?</a>
     </div>
 
-    <button>Sign In</button>
+    <app-button [attr.aria-label]="'Sign In button'">Sign In</app-button>
 
     <div class="form-footer">
-      <p class="signup-text">Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+      <p class="signup-text">Don't have an account? <a href="#" class="signup-link" [attr.aria-label]="'Sign up link'">Sign up</a></p>
     </div>
   </form>
 </div>

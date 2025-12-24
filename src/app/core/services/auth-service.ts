@@ -1,47 +1,43 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, throwError } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-
-interface MockUser {
-  id: number;
-  username: string;
-  password: string;
-  role: string;
-}
+import { MockUser } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-
-  private userUrl = environment.mockUsersUrl;
   private http = inject(HttpClient);
 
-  login(username: string, password: string) {
-  return this.http.get<MockUser[]>(this.userUrl).pipe(
-    map(users => {
-      const user = users.find(
-        u => u.username === username && u.password === password
-      );
+  private baseUrl = environment.mockDbUrl;
 
-      if (!user) {
-        throw new Error('Invalid username or password');
-      }
+  login(email: string, password: string) {
+  return this.http
+    .get<MockUser[]>(`${this.baseUrl}/users`)
+    .pipe(
+      map((users) => {
+        const user = users.find(
+          (u) => u.email === email && u.password === password
+        );
 
-      localStorage.setItem('userId', user.id.toString());
-      localStorage.setItem('role', user.role);
-      localStorage.setItem('isLoggedIn', 'true');
+        if (!user) {
+          throw new Error('Invalid email or password');
+        }
 
-      return {
-        id: user.id,
-        username: user.username,
-        role: user.role
-      };
-    })
-  );
+        localStorage.setItem('userId', user.id.toString());
+        localStorage.setItem('role', user.role);
+        localStorage.setItem('isLoggedIn', 'true');
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+      })
+    );
 }
-
 
   logout() {
     localStorage.clear();

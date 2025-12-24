@@ -1,1 +1,103 @@
-<p>question-editor works!</p>
+<div class="editor-container">
+  <h3>Edit Question</h3>
+
+  <form [formGroup]="form" class="editor-form">
+    <!-- Question Text -->
+    <app-custom-input
+      [placeholder]="'Question Text'"
+      formControlName="text">
+    </app-custom-input>
+    @if (form.get('text')?.hasError('required') && form.get('text')?.touched) {
+      <mat-error>Question text is required</mat-error>
+    }
+
+    <!-- Question Type -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Question Type</mat-label>
+      <mat-select formControlName="type" (change)="onTypeChange()" required>
+        @for (type of questionTypes; track type) {
+          <mat-option [value]="type">{{ type | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Required Toggle -->
+    <div class="toggle-container">
+      <label>
+        <mat-slide-toggle formControlName="required">
+          Required
+        </mat-slide-toggle>
+        <span class="help-text">Mark this question as mandatory</span>
+      </label>
+    </div>
+
+    <!-- Options (for choice questions) -->
+    @if (isChoiceType) {
+      <mat-card class="options-section">
+        <mat-card-header>
+          <mat-card-title>Answer Options</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div formArrayName="options" class="options-list">
+            @if (optionsArray.length === 0) {
+              <p class="no-options">No options yet. Add one to get started.</p>
+            } @else {
+              @for (option of optionsArray.controls; track option; let idx = $index) {
+                <div [formGroupName]="idx" class="option-item">
+                  <app-custom-input
+                    [placeholder]="'Option ' + (idx + 1)"
+                    formControlName="text">
+                  </app-custom-input>
+                    @if (option.get('text')?.hasError('required') && option.get('text')?.touched) {
+                      <mat-error>Option text is required</mat-error>
+                    }
+
+                  <button
+                    mat-icon-button
+                    (click)="removeOption(idx)"
+                    matTooltip="Remove option"
+                    class="remove-option-btn"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            }
+          </div>
+
+          <app-button
+            (clicked)="addOption()"
+            class="add-option-btn"
+            type="button">
+            <mat-icon>add</mat-icon>
+            Add Option
+          </app-button>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    <!-- Conditional Rule -->
+    <mat-expansion-panel class="conditional-section">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>rule</mat-icon>
+          Conditional Display Logic
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <app-condition-rule-editor
+        [assessmentId]="assessmentId"
+        [currentQuestion]="currentQuestion"
+        (ruleChanged)="onConditionalRuleChange()"
+      ></app-condition-rule-editor>
+    </mat-expansion-panel>
+
+    <!-- Actions -->
+    <div class="actions">
+      <app-button (clicked)="save()" [disabled]="!form.valid" [primary]="true">
+        Save Question
+      </app-button>
+    </div>
+  </form>
+</div>

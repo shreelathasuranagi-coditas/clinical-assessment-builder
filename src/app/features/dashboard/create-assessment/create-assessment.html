@@ -1,18 +1,17 @@
 <h2 mat-dialog-title>Create New Assessment</h2>
 
-<mat-dialog-content>
+<div mat-dialog-content>
   <form [formGroup]="form" class="form-container">
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Assessment Name</mat-label>
-      <input matInput formControlName="name" />
-      @if (form.get('name')?.hasError('required')) {
-        <mat-error>Name is required</mat-error>
-      }
-      @if (form.get('name')?.hasError('minlength')) {
-        <mat-error>Minimum 3 characters</mat-error>
-      }
-    </mat-form-field>
+    <app-custom-input
+      [placeholder]="'Assessment Name'"
+      formControlName="name">
+    </app-custom-input>
+    @if (form.get('name')?.hasError('required')) {
+      <mat-error>Name is required</mat-error>
+    }
+    @if (form.get('name')?.hasError('minlength')) {
+      <mat-error>Minimum 3 characters</mat-error>
+    }
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Category</mat-label>
@@ -26,22 +25,14 @@
       }
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Description (Optional)</mat-label>
-      <textarea matInput rows="3" formControlName="description"></textarea>
-    </mat-form-field>
-
+    <app-custom-input
+      [placeholder]="'Description (Optional)'"
+      formControlName="description">
+    </app-custom-input>
   </form>
-</mat-dialog-content>
+</div>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">Cancel</button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="submit()"
-    [disabled]="form.invalid"
-  >
-    Create
-  </button>
-</mat-dialog-actions>
+<div mat-dialog-actions align="end">
+  <app-button (clicked)="cancel()">Cancel</app-button>
+  <app-button [disabled]="form.invalid" (clicked)="submit()" [primary]="true">Create</app-button>
+</div>

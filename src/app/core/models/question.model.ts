@@ -1,20 +1,26 @@
 export type QuestionType =
-  | 'SINGLE_CHOICE'
-  | 'MULTIPLE_CHOICE'
-  | 'TEXT'
-  | 'NUMBER'
-  | 'DATE';
+  | 'single_choice'
+  | 'multi_choice'
+  | 'short_text'
+  | 'number'
+  | 'date';
+
+export interface ConditionalRule {
+  questionId: string;
+  value: string;
+}
+
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
 
 export interface Question {
-  question_id: number;
-  assessment_id: string;
-  question_text: string;
-  question_type: QuestionType;
-  is_required: boolean;
-  question_order: number;
-  is_active: boolean;
-  created_by: number;
-  created_at: string;
-  updated_by: number | null;
-  updated_at: string | null;
+  id: string;
+  text: string;
+  type: QuestionType;
+  required: boolean;
+  options: QuestionOption[];       
+  conditional: ConditionalRule | null;
+  order: number;
 }

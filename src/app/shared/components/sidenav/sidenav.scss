@@ -1,5 +1,7 @@
 .container {
-  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 }
 
 .sidenav {
@@ -7,10 +9,38 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+}
+
+mat-sidenav-content {
+  flex: 1;
+  overflow-y: auto;
 }
 
 mat-nav-list {
   padding-top: 8px;
+
+  a {
+    border-radius: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+
+    &.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+
+      mat-icon {
+        color: #1976d2;
+      }
+    }
+
+    mat-icon {
+      margin-right: 12px;
+    }
+  }
 }
 
 .action-section {

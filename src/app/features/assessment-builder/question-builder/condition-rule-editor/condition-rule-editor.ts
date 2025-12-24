@@ -1,13 +1,32 @@
-import { Component, inject, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  OnInit,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+
 import { AssessmentService } from '../../../../core/services/assessment-service';
-import { Question, ConditionalRule } from '../../../../core/models/assessment.model';
+import {
+  Question,
+  ConditionalRule,
+} from '../../../../core/models/question.model';
+import { CustomInput } from '../../../../shared/components/custom-input/custom-input';
+import { Button } from '../../../../shared/components/button/button';
 
 @Component({
   selector: 'app-condition-rule-editor',
@@ -20,45 +39,59 @@ import { Question, ConditionalRule } from '../../../../core/models/assessment.mo
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    CustomInput,
+    Button,
   ],
   templateUrl: './condition-rule-editor.html',
   styleUrl: './condition-rule-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionRuleEditor {
-  assessmentService = inject(AssessmentService);
+export class ConditionRuleEditor implements OnInit {
+  private assessmentService = inject(AssessmentService);
 
-  @Input() assessmentId: string = '';
+  @Input() assessmentId = '';
   @Input() currentQuestion: Question | null = null;
   @Output() ruleChanged = new EventEmitter<void>();
 
   form = new FormGroup({
-    questionId: new FormControl(''),
-    value: new FormControl(''),
+    questionId: new FormControl<string | null>(null),
+    value: new FormControl<string | null>(null),
   });
 
+  // -----------------------------
+  // Computed state
+  // -----------------------------
   previousQuestions = computed(() => {
-    const assessment = this.assessmentService.getAssessment(this.assessmentId);
-    if (!assessment || !this.currentQuestion) return [];
+    if (!this.assessmentId || !this.currentQuestion) return [];
 
-    return assessment.questions.filter(
-      q => q.order < this.currentQuestion!.order
-    );
+    const assessment =
+      this.assessmentService.getAssessment(this.assessmentId);
+
+    return assessment?.questions
+      ? assessment.questions.filter(
+          (q) => q.order < this.currentQuestion!.order
+        )
+      : [];
   });
 
   selectedQuestion = computed(() => {
-    const questionId = this.form.get('questionId')?.value;
-    const assessment = this.assessmentService.getAssessment(this.assessmentId);
-    return assessment?.questions.find(q => q.id === questionId);
+    const questionId = this.form.value.questionId;
+    if (!questionId) return null;
+
+    const assessment =
+      this.assessmentService.getAssessment(this.assessmentId);
+
+    return assessment?.questions?.find((q) => q.id === questionId) ?? null;
   });
 
   availableValues = computed(() => {
     const question = this.selectedQuestion();
     if (
       question &&
-      (question.type === 'single_choice' || question.type === 'multi_choice')
+      (question.type === 'single_choice' ||
+        question.type === 'multi_choice')
     ) {
-      return question.options.map(opt => opt.text);
+      return question.options.map((opt) => opt.text);
     }
     return [];
   });
@@ -67,25 +100,31 @@ export class ConditionRuleEditor {
     return this.currentQuestion?.conditional !== null;
   });
 
+  // -----------------------------
+  // Lifecycle
+  // -----------------------------
   ngOnInit(): void {
     this.loadRule();
   }
 
   private loadRule(): void {
-    if (this.currentQuestion?.conditional) {
-      const rule = this.currentQuestion.conditional;
-      this.form.patchValue({
-        questionId: rule.questionId,
-        value: rule.value,
-      });
-    }
+    if (!this.currentQuestion?.conditional) return;
+
+    const rule = this.currentQuestion.conditional;
+    this.form.patchValue({
+      questionId: rule.questionId,
+      value: rule.value,
+    });
   }
 
+  // -----------------------------
+  // Actions
+  // -----------------------------
   saveRule(): void {
-    const questionId = this.form.get('questionId')?.value;
-    const value = this.form.get('value')?.value;
+    if (!this.currentQuestion) return;
 
-    if (!questionId || !value || !this.currentQuestion) return;
+    const { questionId, value } = this.form.value;
+    if (!questionId || !value) return;
 
     const rule: ConditionalRule = {
       questionId,
@@ -97,7 +136,11 @@ export class ConditionRuleEditor {
       conditional: rule,
     };
 
-    this.assessmentService.updateQuestion(this.assessmentId, updatedQuestion);
+    this.assessmentService.updateQuestion(
+      this.assessmentId,
+      updatedQuestion
+    );
+
     this.ruleChanged.emit();
   }
 
@@ -109,7 +152,11 @@ export class ConditionRuleEditor {
       conditional: null,
     };
 
-    this.assessmentService.updateQuestion(this.assessmentId, updatedQuestion);
+    this.assessmentService.updateQuestion(
+      this.assessmentId,
+      updatedQuestion
+    );
+
     this.form.reset();
     this.ruleChanged.emit();
   }

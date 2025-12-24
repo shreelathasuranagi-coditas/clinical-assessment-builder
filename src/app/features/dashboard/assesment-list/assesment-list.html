@@ -1,19 +1,19 @@
 <div class="assessment-list-container">
   <div class="header">
     <h1>Assessments</h1>
-    <app-button (clicked)="openCreateDialog()" [primary]="true">
+    <!-- <app-button (clicked)="openCreateDialog()" [primary]="true">
       <mat-icon>add</mat-icon>
       Create New Assessment
-    </app-button>
+    </app-button> -->
   </div>
 
   @if (assessments().length === 0) {
     <div class="empty-state">
       <mat-icon>folder_open</mat-icon>
       <p>No assessments yet</p>
-      <app-button (clicked)="openCreateDialog()" [primary]="true">
+      <!-- <app-button (clicked)="openCreateDialog()" [primary]="true">
         Create Your First Assessment
-      </app-button>
+      </app-button> -->
     </div>
   } @else {
     <div class="table-wrapper">

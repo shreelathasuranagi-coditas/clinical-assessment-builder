@@ -1,0 +1,57 @@
+<div class="rule-editor-container">
+  @if (hasRule()) {
+    <div class="rule-exists">
+      <p>
+        <strong>Show this question IF:</strong>
+        @if (selectedQuestion()) {
+          <br />
+          <span class="rule-summary">
+            [{{ selectedQuestion()!.text }}] equals [{{ form.get('value')?.value }}]
+          </span>
+        }
+      </p>
+    </div>
+  } @else {
+    <p class="no-rule">No conditional rule set. This question will always be visible.</p>
+  }
+
+  <form [formGroup]="form" class="rule-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Condition Based On Question</mat-label>
+      <mat-select formControlName="questionId">
+        <mat-option value="">-- No Condition --</mat-option>
+        @for (question of previousQuestions(); track question.id) {
+          <mat-option [value]="question.id">{{ question.text }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (selectedQuestion()) {
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>When Answer Equals</mat-label>
+        <mat-select formControlName="value">
+          @for (value of availableValues(); track value) {
+            <mat-option [value]="value">{{ value }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+
+    <div class="rule-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="saveRule()"
+        [disabled]="!form.get('questionId')?.value || !form.get('value')?.value"
+        type="button"
+      >
+        Set Rule
+      </button>
+      @if (hasRule()) {
+        <button mat-stroked-button (click)="clearRule()" type="button">
+          Clear Rule
+        </button>
+      }
+    </div>
+  </form>
+</div>

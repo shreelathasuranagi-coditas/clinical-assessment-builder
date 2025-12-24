@@ -1,1 +1,91 @@
-<p>assesment-list works!</p>
+<div class="assessment-list-container">
+  <div class="header">
+    <h1>Assessments</h1>
+    <button mat-raised-button color="primary" (click)="openCreateDialog()" class="create-btn">
+      <mat-icon>add</mat-icon>
+      Create New Assessment
+    </button>
+  </div>
+
+  @if (assessments().length === 0) {
+    <div class="empty-state">
+      <mat-icon>folder_open</mat-icon>
+      <p>No assessments yet</p>
+      <button mat-stroked-button color="primary" (click)="openCreateDialog()">
+        Create Your First Assessment
+      </button>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="assessments()" class="assessments-table">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let assessment">
+            <strong>{{ assessment.name }}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let assessment">
+            {{ assessment.category }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let assessment">
+            <span class="status-badge" [class.draft]="assessment.status === 'Draft'">
+              {{ assessment.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Last Updated Column -->
+        <ng-container matColumnDef="updatedAt">
+          <th mat-header-cell *matHeaderCellDef>Last Updated</th>
+          <td mat-cell *matCellDef="let assessment">
+            {{ assessment.updatedAt | date: 'short' }}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let assessment" class="actions-cell">
+            <button
+              mat-icon-button
+              matTooltip="Edit Assessment"
+              (click)="editAssessment(assessment.id)"
+              class="edit-btn"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Preview Assessment"
+              (click)="previewAssessment(assessment.id)"
+              class="preview-btn"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Delete Assessment"
+              (click)="deleteAssessment(assessment.id)"
+              class="delete-btn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  }
+</div>

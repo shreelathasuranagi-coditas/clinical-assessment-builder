@@ -1,0 +1,63 @@
+<div class="question-list-container">
+  <div class="header">
+    <h3>Questions</h3>
+    <button mat-icon-button (click)="addQuestion()" matTooltip="Add new question" class="add-btn">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  @if (questions.length === 0) {
+    <div class="empty-state">
+      <mat-icon>list_alt</mat-icon>
+      <p>No questions yet</p>
+      <button mat-button color="primary" (click)="addQuestion()">Add First Question</button>
+    </div>
+  } @else {
+    <mat-nav-list class="questions-list">
+      @for (question of questions; track question.id; let idx = $index) {
+        <mat-list-item
+          class="question-item"
+          [class.selected]="selectedQuestionId() === question.id"
+          (click)="selectQuestion(question)"
+        >
+          <div class="question-content">
+            <span class="question-number">Q{{ idx + 1 }}</span>
+            <div class="question-text">
+              <p>{{ getQuestionPreview(question) }}</p>
+              <span class="question-type">{{ question.type | titlecase }}</span>
+            </div>
+          </div>
+
+          <div class="question-actions" matListItemMeta>
+            <button
+              mat-icon-button
+              matTooltip="Move up"
+              (click)="moveUp(question, $event)"
+              [disabled]="idx === 0"
+              class="move-btn"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Move down"
+              (click)="moveDown(question, $event)"
+              [disabled]="idx === questions.length - 1"
+              class="move-btn"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Delete"
+              (click)="deleteQuestion(question, $event)"
+              class="delete-btn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      }
+    </mat-nav-list>
+  }
+</div>

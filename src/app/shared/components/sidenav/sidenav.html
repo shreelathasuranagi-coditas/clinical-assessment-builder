@@ -3,9 +3,18 @@
   <mat-sidenav mode="push" opened class="sidenav">
 
     <mat-nav-list>
-      <a mat-list-item href="#">Dashboard</a>
-      <a mat-list-item href="#">Assessments</a>
-      <a mat-list-item href="#">Profile</a>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/dashboard/assessment-list" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon>
+        <span>Assessments</span>
+      </a>
+      <a mat-list-item href="#">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
     </mat-nav-list>
 
     <div class="action-section">

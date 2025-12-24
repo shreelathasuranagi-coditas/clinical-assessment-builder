@@ -1,4 +1,9 @@
-import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -6,10 +11,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+
 import { AssessmentService } from '../../../core/services/assessment-service';
 import { QuestionList } from './question-list/question-list';
-import { QuestionEditorComponent } from './question-editor/question-editor.component';
-import { Question } from '../../../core/models/assessment.model';
+import { QuestionEditor } from './question-editor/question-editor';
 
 @Component({
   selector: 'app-question-builder',
@@ -22,27 +27,27 @@ import { Question } from '../../../core/models/assessment.model';
     MatToolbarModule,
     MatCardModule,
     QuestionList,
-    QuestionEditorComponent,
+    QuestionEditor,
   ],
   templateUrl: './question-builder.component.html',
   styleUrl: './question-builder.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionBuilderComponent implements OnInit {
-  assessmentService = inject(AssessmentService);
-  route = inject(ActivatedRoute);
-  router = inject(Router);
+  private assessmentService = inject(AssessmentService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   assessment = this.assessmentService.currentAssessment;
   selectedQuestionId: string | null = null;
 
   ngOnInit(): void {
     const assessmentId = this.route.snapshot.paramMap.get('id');
-    if (assessmentId) {
-      const assessment = this.assessmentService.getAssessment(assessmentId);
-      if (assessment) {
-        this.assessmentService.setCurrentAssessment(assessmentId);
-      }
+    if (!assessmentId) return;
+
+    const assessment = this.assessmentService.getAssessment(assessmentId);
+    if (assessment) {
+      this.assessmentService.setCurrentAssessment(assessmentId);
     }
   }
 
@@ -63,8 +68,13 @@ export class QuestionBuilderComponent implements OnInit {
   }
 
   preview(): void {
-    if (this.assessment()) {
-      this.router.navigate(['/assessment', this.assessment()!.id, 'preview']);
-    }
+    const assessment = this.assessment();
+    if (!assessment) return;
+
+    this.router.navigate([
+      '/assessment',
+      assessment.assessment_id,
+      'preview',
+    ]);
   }
 }

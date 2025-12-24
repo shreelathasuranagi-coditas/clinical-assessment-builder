@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { Assessment, Question } from '../models/assessment.model';
+import { Assessment } from '../models/assessment.model';
+import { Question } from '../models/question.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AssessmentDraftService {
     this.draft.set(assessment);
   }
 
-  getDraft() {
+  getDraft(): Assessment | null {
     return this.draft();
   }
 
@@ -20,31 +21,34 @@ export class AssessmentDraftService {
   }
 
   addQuestion(question: Question) {
-    if (!this.draft()) return;
+    const current = this.draft();
+    if (!current) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: [...(a!.questions || []), question],
-    }));
+    this.draft.set({
+      ...current,
+      questions: [...(current.questions ?? []), question],
+    });
   }
 
   updateQuestion(updated: Question) {
-    if (!this.draft()) return;
+    const current = this.draft();
+    if (!current || !current.questions) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: a!.questions!.map((q) =>
+    this.draft.set({
+      ...current,
+      questions: current.questions.map((q) =>
         q.id === updated.id ? updated : q
       ),
-    }));
+    });
   }
 
   removeQuestion(questionId: string) {
-    if (!this.draft()) return;
+    const current = this.draft();
+    if (!current || !current.questions) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: a!.questions!.filter((q) => q.id !== questionId),
-    }));
+    this.draft.set({
+      ...current,
+      questions: current.questions.filter((q) => q.id !== questionId),
+    });
   }
 }

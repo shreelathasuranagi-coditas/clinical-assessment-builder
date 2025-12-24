@@ -1,13 +1,22 @@
-import { Component, inject, Input, Output, EventEmitter, ChangeDetectionStrategy, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { AssessmentService } from '../../../../core/services/assessment-service';
-import { Question } from '../../../../core/models/assessment.model';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { Question } from '../../../../core/models/question.model';
 
 @Component({
   selector: 'app-question-list',
@@ -26,9 +35,9 @@ import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionList {
-  assessmentService = inject(AssessmentService);
+  private assessmentService = inject(AssessmentService);
 
-  @Input() assessmentId: string = '';
+  @Input() assessmentId = '';
   @Output() questionSelected = new EventEmitter<string>();
   @Output() questionDeleted = new EventEmitter<void>();
 
@@ -40,10 +49,9 @@ export class QuestionList {
 
   get questions(): Question[] {
     const assessment = this.assessment;
-    if (assessment) {
-      return [...assessment.questions].sort((a, b) => a.order - b.order);
-    }
-    return [];
+    return assessment?.questions
+      ? [...assessment.questions].sort((a, b) => a.order - b.order)
+      : [];
   }
 
   selectQuestion(question: Question): void {
@@ -55,7 +63,7 @@ export class QuestionList {
     if (!this.assessmentId) return;
 
     const newQuestion: Question = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       text: '',
       type: 'single_choice',
       required: false,
@@ -71,7 +79,7 @@ export class QuestionList {
   deleteQuestion(question: Question, event: Event): void {
     event.stopPropagation();
 
-    if (confirm(`Delete question: "${question.text}"?`)) {
+    if (confirm(`Delete question: "${question.text || 'Untitled'}"?`)) {
       this.assessmentService.deleteQuestion(this.assessmentId, question.id);
       this.questionDeleted.emit();
     }
@@ -81,13 +89,13 @@ export class QuestionList {
     event.stopPropagation();
 
     const questions = this.questions;
-    const index = questions.findIndex(q => q.id === question.id);
+    const index = questions.findIndex((q) => q.id === question.id);
 
     if (index > 0) {
       const reordered = [...questions];
-      [reordered[index], reordered[index - 1]] = [
-        reordered[index - 1],
+      [reordered[index - 1], reordered[index]] = [
         reordered[index],
+        reordered[index - 1],
       ];
       this.assessmentService.reorderQuestions(this.assessmentId, reordered);
     }
@@ -97,7 +105,7 @@ export class QuestionList {
     event.stopPropagation();
 
     const questions = this.questions;
-    const index = questions.findIndex(q => q.id === question.id);
+    const index = questions.findIndex((q) => q.id === question.id);
 
     if (index < questions.length - 1) {
       const reordered = [...questions];
@@ -110,9 +118,10 @@ export class QuestionList {
   }
 
   getQuestionPreview(question: Question): string {
-    if (question.text.length > 40) {
-      return question.text.substring(0, 40) + '...';
-    }
-    return question.text || 'Untitled Question';
+    return question.text
+      ? question.text.length > 40
+        ? question.text.slice(0, 40) + '...'
+        : question.text
+      : 'Untitled Question';
   }
 }

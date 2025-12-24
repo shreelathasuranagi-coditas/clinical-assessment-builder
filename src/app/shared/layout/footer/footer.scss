@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.footer-toolbar {
+  margin-top: auto;
+}
+
+:host ::ng-deep .app-toolbar {
+  height: 56px;
+  background: #fafafa;
+  border-top: 1px solid #e0e0e0;
+  color: #616161;
+  font-size: 13px;
+}

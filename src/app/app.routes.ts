@@ -20,5 +20,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/dashboard/assesment-list/assesment-list')
         .then((m) => m.AssesmentList),
-  },
+  }
 ];
+

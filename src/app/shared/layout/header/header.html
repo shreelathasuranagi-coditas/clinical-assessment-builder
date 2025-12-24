@@ -1,1 +1,8 @@
-<p>header works!</p>
+<app-toolbar
+  [title]="'Clinical Assessment Builder'"
+  [showMenu]="true"
+  [showAction]="true"
+  [actionLabel]="'Create Assessment'"
+  (menuClick)="toggleSidebar.emit()"
+  (actionClick)="createAssessment.emit()">
+</app-toolbar>

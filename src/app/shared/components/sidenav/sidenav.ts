@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { Button } from '../button/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [MatSidenavModule,MatListModule],
+  imports: [MatSidenavModule,MatListModule,Button,MatButtonModule,MatIconModule],
   templateUrl: './sidenav.html',
   styleUrl: './sidenav.scss',
 })
 export class Sidenav {
+    @ViewChild(MatSidenav)
+  private sidenav!: MatSidenav;
 
+  toggle() {
+    this.sidenav.toggle();
+  }
 }

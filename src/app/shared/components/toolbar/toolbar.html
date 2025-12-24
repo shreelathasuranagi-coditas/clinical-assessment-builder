@@ -1,0 +1,28 @@
+<mat-toolbar class="app-toolbar">
+
+  @if (showMenu()) {
+    <button
+      mat-icon-button
+      (click)="menuClick.emit()"
+      aria-label="Toggle navigation"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
+  <span class="toolbar-title">
+    {{ title() }}
+  </span>
+
+  <span class="spacer"></span>
+
+  @if (showAction()) {
+    <app-button
+      color="primary"
+      (clicked)="actionClick.emit()"
+    >
+      {{ actionLabel() }}
+    </app-button>
+  }
+
+</mat-toolbar>

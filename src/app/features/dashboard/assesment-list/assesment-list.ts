@@ -7,48 +7,68 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from '../../../core/services/assessment-service';
-import { CreateAssessmentDialogComponent } from '../create-assessment-dialog/create-assessment-dialog.component';
+import { CreateAssessment } from '../create-assessment/create-assessment';
+import { Assessment } from '../../../core/models/assessment.model';
 
 @Component({
   selector: 'app-assesment-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatTooltipModule, CreateAssessmentDialogComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    CreateAssessment,
+  ],
   templateUrl: './assesment-list.html',
   styleUrl: './assesment-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssesmentList {
-  assessmentService = inject(AssessmentService);
-  router = inject(Router);
-  dialog = inject(MatDialog);
+  private assessmentService = inject(AssessmentService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   assessments = this.assessmentService.assessments;
-  displayedColumns = ['name', 'category', 'status', 'updatedAt', 'actions'];
+
+  displayedColumns: (keyof Assessment | 'actions')[] = [
+    'name',
+    'category_id',
+    'status',
+    'updated_at',
+    'actions',
+  ];
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateAssessmentDialogComponent, {
+    const dialogRef = this.dialog.open(CreateAssessment, {
       width: '500px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const assessment = this.assessmentService.createAssessment(result);
-        this.router.navigate(['/assessment', assessment.id, 'details']);
-      }
+      if (!result) return;
+
+      const assessment = this.assessmentService.createAssessment(result);
+
+      this.router.navigate([
+        '/assessment',
+        assessment.assessment_id,
+        'details',
+      ]);
     });
   }
 
-  editAssessment(id: string): void {
-    this.router.navigate(['/assessment', id, 'details']);
+  editAssessment(assessmentId: string): void {
+    this.router.navigate(['/assessment', assessmentId, 'details']);
   }
 
-  deleteAssessment(id: string): void {
+  deleteAssessment(assessmentId: string): void {
     if (confirm('Are you sure you want to delete this assessment?')) {
-      this.assessmentService.deleteAssessment(id);
+      this.assessmentService.deleteAssessment(assessmentId);
     }
   }
 
-  previewAssessment(id: string): void {
-    this.router.navigate(['/assessment', id, 'preview']);
+  previewAssessment(assessmentId: string): void {
+    this.router.navigate(['/assessment', assessmentId, 'preview']);
   }
 }

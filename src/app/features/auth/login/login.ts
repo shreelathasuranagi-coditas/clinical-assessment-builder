@@ -17,13 +17,13 @@ export class Login {
   authService = inject(AuthService)
 
   loginForm = new FormGroup({
-    username: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
 
   onLoginClick() {
     console.log('Login button clicked');
-    const loginUser = this.loginForm.get('username')?.value as string;
+    const loginUser = this.loginForm.get('email')?.value as string;
     const loginPass = this.loginForm.get('password')?.value as string;
 
     this.authService.login(loginUser, loginPass).subscribe({

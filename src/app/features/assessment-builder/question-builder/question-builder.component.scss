@@ -1,0 +1,47 @@
+.builder-container {
+  height: calc(100vh - 64px);
+  background: #f5f5f5;
+
+  .question-list-sidenav {
+    width: 300px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+
+    ::ng-deep {
+      .mat-sidenav-inner-container {
+        padding: 0;
+      }
+    }
+  }
+
+  .editor-content {
+    background: white;
+    padding: 24px;
+    overflow-y: auto;
+
+    .empty-editor {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #999;
+
+      mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 16px;
+      }
+
+      p {
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

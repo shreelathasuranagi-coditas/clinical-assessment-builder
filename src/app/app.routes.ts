@@ -12,14 +12,45 @@ export const routes: Routes = [
     path: 'login',
     canActivate: [loginRedirectGuard],
     loadComponent: () =>
-      import('./features/auth/login/login').then((m) => m.Login),
+      import('./features/auth/login/login')
+        .then((m) => m.Login),
   },
   {
-    path: 'dashboard',
+    path: '',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/dashboard/assesment-list/assesment-list')
-        .then((m) => m.AssesmentList),
-  }
+      import('./shared/layout/main/main')
+        .then((m) => m.Main),
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.routes')
+            .then((m) => m.dashboardRoutes),
+      },
+      {
+        path: 'assessment/:id',
+        children: [
+          {
+            path: 'details',
+            loadComponent: () =>
+              import('./features/assessment-builder/assessment-details/assessment-details')
+                .then((m) => m.AssessmentDetails),
+          },
+          {
+            path: 'preview',
+            loadComponent: () =>
+              import('./features/assessment-builder/preview/preview')
+                .then((m) => m.Preview),
+          },
+          {
+            path: 'builder',
+            loadComponent: () =>
+              import('./features/assessment-builder/question-builder/question-builder.component')
+                .then((m) => m.QuestionBuilderComponent),
+          },
+        ],
+      },
+    ],
+  },
 ];
-

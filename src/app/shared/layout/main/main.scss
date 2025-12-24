@@ -1,4 +1,19 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+
+  app-header {
+    flex-shrink: 0;
+    z-index: 100;
+  }
+
+  app-sidenav {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  app-footer {
+    flex-shrink: 0;
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { Button } from '../button/button';
@@ -7,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [MatSidenavModule,MatListModule,Button,MatButtonModule,MatIconModule],
+  imports: [MatSidenavModule,MatListModule,Button,MatButtonModule,MatIconModule,RouterModule],
   templateUrl: './sidenav.html',
   styleUrl: './sidenav.scss',
 })

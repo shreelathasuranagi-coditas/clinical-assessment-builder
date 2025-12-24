@@ -114,6 +114,10 @@ export class AssessmentService {
     this.saveToStorage();
   }
 
+  getAssessment(assessmentId: string): Assessment | undefined {
+  return this.getById(assessmentId);
+}
+
   // ------------------------
   // Questions
   // ------------------------

@@ -1,0 +1,103 @@
+<div class="preview-container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <span class="spacer"></span>
+    <h2>{{ assessment()?.name || 'Preview Mode' }}</h2>
+    <span class="spacer"></span>
+
+    <span class="step-indicator" *ngIf="visibleQuestions().length > 0">
+      {{ currentStep() + 1 }} / {{ visibleQuestions().length }}
+    </span>
+  </mat-toolbar>
+
+  <div class="preview-content">
+    @if (!assessment()) {
+      <div class="loading-state">
+        <mat-icon>hourglass_empty</mat-icon>
+        <p>Loading assessment...</p>
+      </div>
+    } @else if (!assessment()!.questions || assessment()!.questions.length === 0) {
+      <div class="empty-state">
+        <mat-icon>info</mat-icon>
+        <p>No questions available in this assessment.</p>
+        <p class="hint">Add questions in the question builder to preview them.</p>
+        <button mat-raised-button color="primary" (click)="close()">Back to Builder</button>
+      </div>
+    } @else {
+      <mat-card class="question-card">
+        <mat-card-header>
+          <mat-card-title>
+            Question {{ currentStep() + 1 }} of {{ assessment()!.questions!.length }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          @if (currentQuestion()) {
+            <h3 class="question-text">
+              {{ getQuestionDisplay(currentQuestion()!) }}
+            </h3>
+            
+            <form [formGroup]="form">
+              @switch (currentQuestion()!.type) {
+
+                @case ('single_choice') {
+                  <mat-radio-group formControlName="answer" class="options-group">
+                    @for (option of currentQuestion()!.options; track option.id) {
+                      <mat-radio-button [value]="option.text" class="option">
+                        {{ option.text }}
+                      </mat-radio-button>
+                    }
+                  </mat-radio-group>
+                }
+
+                @case ('multi_choice') {
+                  <div class="checkbox-group">
+                    @for (option of currentQuestion()!.options; track option.id) {
+                      <mat-checkbox
+                        [checked]="selectedCheckboxes()[option.text]"
+                        (change)="onCheckboxChange(option.text, $event.checked)"
+                        class="option">
+                        {{ option.text }}
+                      </mat-checkbox>
+                    }
+                  </div>
+                }
+
+                @case ('short_text') {
+                  <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Your answer</mat-label>
+                    <input matInput formControlName="answer" />
+                  </mat-form-field>
+                }
+              }
+            </form>
+          } @else {
+            <div class="empty-state">
+              <mat-icon>info</mat-icon>
+              <p>Unable to load question.</p>
+            </div>
+          }
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button (click)="back()" [disabled]="isFirstQuestion()">
+            <mat-icon>arrow_back</mat-icon>
+            Back
+          </button>
+
+          <span class="spacer"></span>
+
+          <button mat-raised-button color="primary" (click)="next()">
+            {{ isLastQuestion() ? 'Complete' : 'Next' }}
+            <mat-icon>
+              {{ isLastQuestion() ? 'check' : 'arrow_forward' }}
+            </mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+</div>

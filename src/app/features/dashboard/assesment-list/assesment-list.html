@@ -1,23 +1,24 @@
 <div class="assessment-list-container">
   <div class="header">
     <h1>Assessments</h1>
-    <button mat-raised-button color="primary" (click)="openCreateDialog()" class="create-btn">
+    <app-button (clicked)="openCreateDialog()" [primary]="true">
       <mat-icon>add</mat-icon>
       Create New Assessment
-    </button>
+    </app-button>
   </div>
 
   @if (assessments().length === 0) {
     <div class="empty-state">
       <mat-icon>folder_open</mat-icon>
       <p>No assessments yet</p>
-      <button mat-stroked-button color="primary" (click)="openCreateDialog()">
+      <app-button (clicked)="openCreateDialog()" [primary]="true">
         Create Your First Assessment
-      </button>
+      </app-button>
     </div>
   } @else {
     <div class="table-wrapper">
       <table mat-table [dataSource]="assessments()" class="assessments-table">
+
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -26,56 +27,61 @@
           </td>
         </ng-container>
 
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
+        <!-- Category Column (FIXED) -->
+        <ng-container matColumnDef="category_id">
           <th mat-header-cell *matHeaderCellDef>Category</th>
           <td mat-cell *matCellDef="let assessment">
-            {{ assessment.category }}
+            {{ categoryMap[assessment.category_id] || 'Unknown' }}
           </td>
         </ng-container>
 
-        <!-- Status Column -->
+        <!-- Status Column (FIXED) -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let assessment">
-            <span class="status-badge" [class.draft]="assessment.status === 'Draft'">
+            <span
+              class="status-badge"
+              [class.draft]="assessment.status === 'DRAFT'"
+            >
               {{ assessment.status }}
             </span>
           </td>
         </ng-container>
 
-        <!-- Last Updated Column -->
-        <ng-container matColumnDef="updatedAt">
+        <!-- Last Updated Column (FIXED) -->
+        <ng-container matColumnDef="updated_at">
           <th mat-header-cell *matHeaderCellDef>Last Updated</th>
           <td mat-cell *matCellDef="let assessment">
-            {{ assessment.updatedAt | date: 'short' }}
+            {{ assessment.updated_at | date: 'short' }}
           </td>
         </ng-container>
 
-        <!-- Actions Column -->
+        <!-- Actions Column (FIXED) -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let assessment" class="actions-cell">
             <button
               mat-icon-button
               matTooltip="Edit Assessment"
-              (click)="editAssessment(assessment.id)"
+              (click)="editAssessment(assessment.assessment_id)"
               class="edit-btn"
             >
               <mat-icon>edit</mat-icon>
             </button>
+
             <button
               mat-icon-button
               matTooltip="Preview Assessment"
-              (click)="previewAssessment(assessment.id)"
+              (click)="previewAssessment(assessment.assessment_id)"
               class="preview-btn"
             >
               <mat-icon>visibility</mat-icon>
             </button>
+
             <button
               mat-icon-button
               matTooltip="Delete Assessment"
-              (click)="deleteAssessment(assessment.id)"
+              (click)="deleteAssessment(assessment.assessment_id)"
               class="delete-btn"
             >
               <mat-icon>delete</mat-icon>

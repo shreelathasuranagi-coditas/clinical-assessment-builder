@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 8px;
+}
+
+h2[mat-dialog-title] {
+  margin: 0;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+mat-dialog-content {
+  padding: 16px 24px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+mat-dialog-actions {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

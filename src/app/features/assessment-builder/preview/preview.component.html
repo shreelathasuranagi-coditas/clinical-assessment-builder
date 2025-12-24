@@ -68,11 +68,15 @@
               class="action-btn"
             >
               @if (isLastQuestion()) {
-                <span>Complete</span>
-                <mat-icon>check</mat-icon>
+                <ng-container>
+                  <span>Complete</span>
+                  <mat-icon>check</mat-icon>
+                </ng-container>
               } @else {
-                <span>Next</span>
-                <mat-icon>arrow_forward</mat-icon>
+                <ng-container>
+                  <span>Next</span>
+                  <mat-icon>arrow_forward</mat-icon>
+                </ng-container>
               }
             </button>
           </mat-card-actions>

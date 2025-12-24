@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Assessment } from '../models/assessment.model';
-import { Question } from '../models/question.model';
+import { Assessment, Question } from '../models/assessment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,17 +34,17 @@ export class AssessmentDraftService {
     this.draft.update((a) => ({
       ...a!,
       questions: a!.questions!.map((q) =>
-        q.question_id === updated.question_id ? updated : q
+        q.id === updated.id ? updated : q
       ),
     }));
   }
 
-  removeQuestion(questionId: number) {
+  removeQuestion(questionId: string) {
     if (!this.draft()) return;
 
     this.draft.update((a) => ({
       ...a!,
-      questions: a!.questions!.filter((q) => q.question_id !== questionId),
+      questions: a!.questions!.filter((q) => q.id !== questionId),
     }));
   }
 }

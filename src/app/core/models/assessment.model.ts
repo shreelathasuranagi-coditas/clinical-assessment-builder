@@ -1,16 +1,38 @@
-import { Question } from './question.model';
+export type QuestionType = 'single_choice' | 'multi_choice' | 'short_text';
 
-export type AssessmentStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+export interface ConditionalRule {
+  questionId: string;
+  value: string;
+}
+
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
+
+export interface Question {
+  id: string;
+  text: string;
+  type: QuestionType;
+  required: boolean;
+  options: QuestionOption[];
+  conditional: ConditionalRule | null;
+  order: number;
+}
 
 export interface Assessment {
-  assessment_id: string;
+  id: string;
   name: string;
-  category_id: number;
+  category: 'Oncology' | 'Hereditary Cancer' | 'Reproductive Health' | 'Other';
   description: string;
-  status: AssessmentStatus;
-  created_by: number;
-  created_at: string;
-  updated_at: string;
+  status: 'Draft' | 'Published';
+  questions: Question[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-  questions?: Question[];
+export interface AssessmentMetadata {
+  name: string;
+  category: 'Oncology' | 'Hereditary Cancer' | 'Reproductive Health' | 'Other';
+  description: string;
 }

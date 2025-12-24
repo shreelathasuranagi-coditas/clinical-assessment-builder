@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { AssessmentService } from '../../../core/services/assessment-service';
-import { CreateAssessment } from '../create-assessment/create-assessment';
 import { Assessment } from '../../../core/models/assessment.model';
+import { CreateAssessmentDialogComponent } from '../create-assessment-dialog/create-assessment-dialog.component';
 
 @Component({
   selector: 'app-assesment-list',
@@ -19,7 +19,6 @@ import { Assessment } from '../../../core/models/assessment.model';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    CreateAssessment,
   ],
   templateUrl: './assesment-list.html',
   styleUrl: './assesment-list.scss',
@@ -34,14 +33,14 @@ export class AssesmentList {
 
   displayedColumns: (keyof Assessment | 'actions')[] = [
     'name',
-    'category_id',
+    'category',
     'status',
-    'updated_at',
+    'updatedAt',
     'actions',
   ];
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateAssessment, {
+    const dialogRef = this.dialog.open(CreateAssessmentDialogComponent, {
       width: '500px',
     });
 
@@ -52,7 +51,7 @@ export class AssesmentList {
 
       this.router.navigate([
         '/assessment',
-        assessment.assessment_id,
+        assessment.id,
         'details',
       ]);
     });

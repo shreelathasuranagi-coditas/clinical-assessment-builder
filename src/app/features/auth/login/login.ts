@@ -22,6 +22,7 @@ export class Login {
   });
 
   onLoginClick() {
+    console.log('Login button clicked');
     const loginUser = this.loginForm.get('username')?.value as string;
     const loginPass = this.loginForm.get('password')?.value as string;
 

@@ -1,3 +1,39 @@
+
 .container {
   height: 100vh;
+  background-color: #f5f7fa;
 }
+
+mat-sidenav {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+mat-nav-list {
+  padding-top: 16px;
+}
+
+a.mat-list-item {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+  margin: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a.mat-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+a.mat-list-item.mat-list-item-selected {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+mat-sidenav-content {
+  padding: 24px;
+  background-color: #f5f7fa;
+}
+

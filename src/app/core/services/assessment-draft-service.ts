@@ -12,7 +12,7 @@ export class AssessmentDraftService {
     this.draft.set(assessment);
   }
 
-  getDraft() {
+  getDraft(): Assessment | null {
     return this.draft();
   }
 
@@ -21,31 +21,34 @@ export class AssessmentDraftService {
   }
 
   addQuestion(question: Question) {
-    if (!this.draft()) return;
+    const current = this.draft();
+    if (!current) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: [...(a!.questions || []), question],
-    }));
+    this.draft.set({
+      ...current,
+      questions: [...(current.questions ?? []), question],
+    });
   }
 
   updateQuestion(updated: Question) {
-    if (!this.draft()) return;
+    const current = this.draft();
+    if (!current || !current.questions) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: a!.questions!.map((q) =>
-        q.question_id === updated.question_id ? updated : q
+    this.draft.set({
+      ...current,
+      questions: current.questions.map((q) =>
+        q.id === updated.id ? updated : q
       ),
-    }));
+    });
   }
 
-  removeQuestion(questionId: number) {
-    if (!this.draft()) return;
+  removeQuestion(questionId: string) {
+    const current = this.draft();
+    if (!current || !current.questions) return;
 
-    this.draft.update((a) => ({
-      ...a!,
-      questions: a!.questions!.filter((q) => q.question_id !== questionId),
-    }));
+    this.draft.set({
+      ...current,
+      questions: current.questions.filter((q) => q.id !== questionId),
+    });
   }
 }

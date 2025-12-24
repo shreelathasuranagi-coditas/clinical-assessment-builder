@@ -1,119 +1,111 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "name": "Dr. Jane Smith",
+      "email": "admin@gmail.com",
+      "password": "password123",
+      "role": "ADMIN",
+      "hospital_id": 1,
+      "created_at": "2025-12-22T10:30:00",
+      "updated_at": "2025-12-22T10:30:00"
+    },
+    {
+      "id": 2,
+      "name": "Dr. John Clinician",
+      "email": "clinician@gmail.com",
+      "password": "password123",
+      "role": "CLINICIAN",
+      "hospital_id": 1,
+      "created_at": "2025-12-22T10:35:00",
+      "updated_at": "2025-12-22T10:35:00"
+    }
+  ],
+
+  "categories": [
+    {
+      "id": 1,
+      "name": "Oncology",
+      "description": "Cancer related assessments"
+    },
+    {
+      "id": 2,
+      "name": "Cardiology",
+      "description": "Heart related assessments"
+    }
+  ],
+
   "assessments": [
     {
-      "assessmentId": "a1",
-      "name": "Hereditary Cancer Intake",
-      "category": "Hereditary Cancer",
-      "description": "Initial screening form for hereditary cancer risk assessment",
-      "status": "Draft",
-      "questions": [
-        {
-          "id": "q1",
-          "text": "What is your biological sex at birth?",
-          "type": "single_choice",
-          "required": true,
-          "options": [
-            { "id": "o1", "label": "Male", "value": "Male" },
-            { "id": "o2", "label": "Female", "value": "Female" },
-            { "id": "o3", "label": "Other", "value": "Other" }
-          ],
-          "conditional": null,
-          "order": 1
-        },
-        {
-          "id": "q2",
-          "text": "Do you have a family history of cancer?",
-          "type": "single_choice",
-          "required": true,
-          "options": [
-            { "id": "o4", "label": "Yes", "value": "Yes" },
-            { "id": "o5", "label": "No", "value": "No" },
-            { "id": "o6", "label": "Not Sure", "value": "Not Sure" }
-          ],
-          "conditional": null,
-          "order": 2
-        },
-        {
-          "id": "q3",
-          "text": "Please specify the relatives affected by cancer:",
-          "type": "short_text",
-          "required": false,
-          "options": [],
-          "conditional": {
-            "questionId": "q2",
-            "operator": "equals",
-            "value": "Yes"
-          },
-          "order": 3
-        }
-      ],
-      "createdAt": "2025-12-15T00:00:00.000Z",
-      "updatedAt": "2025-12-19T00:00:00.000Z"
+      "assessment_id": "ASMT-1001",
+      "name": "Cancer Screening Assessment",
+      "category_id": 1,
+      "description": "Initial screening for cancer risk",
+      "status": "DRAFT",
+      "created_by": 1,
+      "created_at": "2025-12-22T10:30:00",
+      "updated_at": "2025-12-22T10:30:00"
     },
     {
-      "assessmentId": "a2",
-      "name": "Oncology Risk Assessment",
-      "category": "Oncology",
-      "description": "Assessment for oncology patient intake",
-      "status": "Draft",
-      "questions": [
-        {
-          "id": "q4",
-          "text": "Have you been diagnosed with cancer?",
-          "type": "single_choice",
-          "required": true,
-          "options": [
-            { "id": "o7", "label": "Yes", "value": "Yes" },
-            { "id": "o8", "label": "No", "value": "No" }
-          ],
-          "conditional": null,
-          "order": 1
-        },
-        {
-          "id": "q5",
-          "text": "Select your cancer type(s):",
-          "type": "multi_choice",
-          "required": false,
-          "options": [
-            { "id": "o9", "label": "Breast", "value": "Breast" },
-            { "id": "o10", "label": "Ovarian", "value": "Ovarian" },
-            { "id": "o11", "label": "Colon", "value": "Colon" },
-            { "id": "o12", "label": "Other", "value": "Other" }
-          ],
-          "conditional": {
-            "questionId": "q4",
-            "operator": "equals",
-            "value": "Yes"
-          },
-          "order": 2
-        }
-      ],
-      "createdAt": "2025-12-18T00:00:00.000Z",
-      "updatedAt": "2025-12-18T00:00:00.000Z"
+      "assessment_id": "ASMT-1002",
+      "name": "Diabetes Risk Assessment",
+      "category_id": 2,
+      "description": "Initial screening for diabetes risk",
+      "status": "DRAFT",
+      "created_by": 1,
+      "created_at": "2025-12-22T10:40:00",
+      "updated_at": "2025-12-22T10:40:00"
+    }
+  ],
+
+  "questions": [
+    {
+      "question_id": 10,
+      "assessment_id": "ASMT-1001",
+      "question_text": "Do you have a family history of cancer?",
+      "question_type": "SINGLE_CHOICE",
+      "is_required": true,
+      "question_order": 1,
+      "is_active": true,
+      "created_by": 1,
+      "created_at": "2025-12-22T10:45:00",
+      "updated_by": null,
+      "updated_at": null
     },
     {
-      "assessmentId": "a3",
-      "name": "Reproductive Health Screening",
-      "category": "Reproductive Health",
-      "description": "Reproductive health intake form",
-      "status": "Draft",
-      "questions": [
-        {
-          "id": "q6",
-          "text": "Are you planning pregnancy in the next 12 months?",
-          "type": "single_choice",
-          "required": true,
-          "options": [
-            { "id": "o13", "label": "Yes", "value": "Yes" },
-            { "id": "o14", "label": "No", "value": "No" },
-            { "id": "o15", "label": "Maybe", "value": "Maybe" }
-          ],
-          "conditional": null,
-          "order": 1
-        }
-      ],
-      "createdAt": "2025-12-17T00:00:00.000Z",
-      "updatedAt": "2025-12-17T00:00:00.000Z"
+      "question_id": 11,
+      "assessment_id": "ASMT-1001",
+      "question_text": "Please specify relatives affected:",
+      "question_type": "TEXT",
+      "is_required": false,
+      "question_order": 2,
+      "is_active": true,
+      "created_by": 1,
+      "created_at": "2025-12-22T10:46:00",
+      "updated_by": null,
+      "updated_at": null
+    }
+  ],
+
+  "question_options": [
+    {
+      "option_id": 1,
+      "question_id": 10,
+      "option_text": "Yes"
+    },
+    {
+      "option_id": 2,
+      "question_id": 10,
+      "option_text": "No"
+    }
+  ],
+
+  "question_conditions": [
+    {
+      "question_id": 11,
+      "depends_on_question_id": 10,
+      "operator": "EQUALS",
+      "comparison_value": "Yes"
     }
   ]
 }

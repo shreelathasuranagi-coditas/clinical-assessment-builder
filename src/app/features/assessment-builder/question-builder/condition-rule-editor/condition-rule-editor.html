@@ -38,19 +38,16 @@
     }
 
     <div class="rule-actions">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="saveRule()"
+      <app-button
+        (clicked)="saveRule()"
         [disabled]="!form.get('questionId')?.value || !form.get('value')?.value"
-        type="button"
-      >
+        [primary]="true">
         Set Rule
-      </button>
+      </app-button>
       @if (hasRule()) {
-        <button mat-stroked-button (click)="clearRule()" type="button">
+        <app-button (clicked)="clearRule()">
           Clear Rule
-        </button>
+        </app-button>
       }
     </div>
   </form>

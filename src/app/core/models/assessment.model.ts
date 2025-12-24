@@ -7,7 +7,7 @@ export interface Assessment {
   name: string;
   category_id: number;
   description: string;
-  status: AssessmentStatus;
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   created_by: number;
   created_at: string;
   updated_at: string;

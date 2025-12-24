@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
+import { Button } from '../../../shared/components/button/button';
+import { CustomInput } from '../../../shared/components/custom-input/custom-input';
 
 @Component({
   selector: 'app-create-assessment',
@@ -13,14 +14,16 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule,
+    MatDialogModule,
+    Button,
+    CustomInput,
   ],
   templateUrl: './create-assessment.html',
   styleUrl: './create-assessment.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateAssessment {
   private dialogRef = inject(MatDialogRef<CreateAssessment>);
@@ -50,6 +53,6 @@ export class CreateAssessment {
   }
 
   cancel(): void {
-    this.dialogRef.close(null);
+    this.dialogRef.close();
   }
 }

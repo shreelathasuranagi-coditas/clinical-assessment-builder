@@ -1,218 +1,109 @@
 .editor-container {
-  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 180px);
+  padding: 24px;
   background: white;
   border-radius: 8px;
+}
 
-  h3 {
-    margin: 0 0 28px;
-    font-size: 24px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* ---------------- TITLE ---------------- */
+
+h3 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------------- CONTENT ---------------- */
+
+.editor-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* ---------------- FORM ---------------- */
+
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.toggle-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .help-text {
+    font-size: 12px;
+    color: #888;
+    margin-left: 36px;
+  }
+}
+
+/* ---------------- OPTIONS ---------------- */
+
+.options-section {
+  background: transparent;
+  border: none;
+
+  mat-card-header {
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 8px 8px 0 0;
+
+    mat-card-title {
+      color: white;
+      font-weight: 700;
+    }
   }
 
-  .editor-form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-
-    .form-section {
-      padding: 20px;
-      background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
-      border-radius: 8px;
-      border: 1px solid #e9ecef;
-
-      h4 {
-        margin: 0 0 16px;
-        font-size: 14px;
-        font-weight: 700;
-        color: #667eea;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-    }
-
-    .full-width {
-      width: 100%;
-    }
-
-    .toggle-container {
-      label {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        cursor: pointer;
-        font-weight: 500;
-        color: #1a1a1a;
-
-        .help-text {
-          font-size: 12px;
-          color: #999;
-          margin-left: 28px;
-          display: block;
-          font-weight: 400;
-        }
-      }
-    }
-
-    .options-section {
-      margin-bottom: 0;
-      background: transparent !important;
-      border: none !important;
-
-      mat-card-header {
-        padding: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-bottom: 2px solid #667eea;
-        border-radius: 8px 8px 0 0;
-
-        mat-card-title {
-          margin: 0;
-          font-size: 16px;
-          font-weight: 700;
-          color: white;
-        }
-      }
-
-      mat-card-content {
-        padding: 20px;
-        background: white;
-        border: 1px solid #e9ecef;
-        border-top: none;
-        border-radius: 0 0 8px 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-        .options-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-bottom: 16px;
-
-          .no-options {
-            color: #999;
-            text-align: center;
-            padding: 24px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 6px;
-            margin: 0;
-            border: 2px dashed #e9ecef;
-            font-weight: 500;
-          }
-
-          .option-item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            border: 1px solid #e9ecef;
-
-            &:hover {
-              background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-              border-color: #667eea;
-            }
-
-            .option-field {
-              flex: 1;
-            }
-
-            .remove-option-btn {
-              color: #f44336;
-              margin-top: 0;
-              padding: 4px;
-              cursor: pointer;
-              transition: all 0.3s ease;
-
-              &:hover {
-                background: rgba(244, 67, 54, 0.1);
-                border-radius: 4px;
-              }
-            }
-          }
-        }
-
-        .add-option-btn {
-          width: 100%;
-        }
-      }
-    }
-
-    .conditional-section {
-      margin-bottom: 0;
-
-      mat-expansion-panel-header {
-        background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
-        border-bottom: 2px solid #e9ecef;
-
-        &:hover {
-          background: linear-gradient(90deg, #e9ecef 0%, #dee2e6 100%);
-        }
-
-        mat-panel-title {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-weight: 600;
-          color: #667eea;
-
-          mat-icon {
-            font-size: 20px;
-            width: 20px;
-            height: 20px;
-          }
-        }
-      }
-
-      ::ng-deep .mat-expansion-panel-body {
-        padding: 20px;
-        background: white;
-      }
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 2px solid #e9ecef;
-
-      button {
-        padding: 10px 24px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 14px;
-
-        &.save-btn {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-
-          &:hover {
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
-          }
-        }
-
-        &.cancel-btn {
-          background: transparent;
-          color: #666;
-          border: 2px solid #e9ecef;
-
-          &:hover {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateY(-2px);
-          }
-        }
-      }
-    }
+  mat-card-content {
+    padding: 16px;
+    border: 1px solid #e9ecef;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
   }
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.remove-option-btn {
+  color: #f44336;
+}
+
+/* ---------------- CONDITIONAL ---------------- */
+
+.conditional-section {
+  margin-top: 8px;
+}
+
+/* ---------------- ACTIONS ---------------- */
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 2px solid #e9ecef;
+  background: white;
 }

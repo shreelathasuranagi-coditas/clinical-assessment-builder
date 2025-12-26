@@ -1,5 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
 
+  <!-- SIDENAV -->
   <mat-sidenav mode="side" opened class="sidenav">
 
     <!-- TOP NAV -->
@@ -27,7 +28,7 @@
 
       <a
         mat-list-item
-        routerLink="/profile"
+        routerLink="/dashboard/profile"
         routerLinkActive="active"
         (click)="onNavItemClick()"
       >
@@ -36,7 +37,7 @@
       </a>
     </mat-nav-list>
 
-    <!-- ✅ BOTTOM GROUP -->
+    <!-- BOTTOM GROUP -->
     <div class="bottom-section">
 
       <div class="action-section">
@@ -54,11 +55,10 @@
       </div>
 
     </div>
-
   </mat-sidenav>
 
-  <mat-sidenav-content class="content">
-    <ng-content></ng-content>
+  <mat-sidenav-content class="sidenav-content">
+     <router-outlet></router-outlet>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

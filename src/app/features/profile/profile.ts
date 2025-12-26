@@ -33,16 +33,10 @@ export class Profile implements OnInit {
 
   currentUser = this.authService.currentUser;
 
-  ngOnInit() {
-    // Load current user from localStorage if not already loaded
-    if (!this.currentUser()) {
-      const user = this.authService.getCurrentUser();
-      if (!user) {
-        // If still no user, redirect to login
-        this.router.navigate(['/login']);
-      }
-    }
-  }
+  ngOnInit(): void {
+  this.authService.hydrateUser();
+}
+
 
   goBack(): void {
     this.router.navigate(['/dashboard']);

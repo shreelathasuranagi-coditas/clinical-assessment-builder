@@ -8,19 +8,22 @@
 
   @if (assessment()) {
     <mat-card class="details-card">
-      <mat-card-content>
+
+      <!-- CONTENT (SCROLLABLE) -->
+      <mat-card-content class="details-content">
         <form [formGroup]="form" class="form-container">
 
           <app-custom-input
-            [placeholder]="'Assessment Name'"
+            placeholder="Assessment Name"
             formControlName="name">
           </app-custom-input>
-          @if (form.get('name')?.hasError('required')) {
-            <mat-error>Name is required</mat-error>
-          }
-          @if (form.get('name')?.hasError('minlength')) {
-            <mat-error>Minimum 3 characters</mat-error>
-          }
+
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+          <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+            Minimum 3 characters
+          </mat-error>
 
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>Category</mat-label>
@@ -29,9 +32,9 @@
                 <mat-option [value]="cat.id">{{ cat.label }}</mat-option>
               }
             </mat-select>
-            @if (form.get('category_id')?.hasError('required')) {
-              <mat-error>Category is required</mat-error>
-            }
+            <mat-error *ngIf="form.get('category_id')?.hasError('required')">
+              Category is required
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="fill" class="full-width">
@@ -42,20 +45,24 @@
         </form>
       </mat-card-content>
 
-      <mat-card-actions>
+      <!-- ACTIONS (STICKY) -->
+      <mat-card-actions class="details-actions">
         <app-button (clicked)="goBack()">Cancel</app-button>
+
         <app-button
           [disabled]="form.invalid"
           (clicked)="save()"
           [primary]="true">
           Save & Continue
         </app-button>
+
         <app-button
-          (clicked)="goToQuestionBuilder()"
-          [disabled]="form.invalid">
+          [disabled]="form.invalid"
+          (clicked)="goToQuestionBuilder()">
           Go to Question Builder
         </app-button>
       </mat-card-actions>
+
     </mat-card>
   }
 </div>

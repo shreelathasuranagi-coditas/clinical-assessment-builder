@@ -1,38 +1,45 @@
 <h2 mat-dialog-title>Create New Assessment</h2>
 
-<div mat-dialog-content>
+<mat-dialog-content class="dialog-content">
   <form [formGroup]="form" class="form-container">
     <app-custom-input
-      [placeholder]="'Assessment Name'"
+      placeholder="Assessment Name"
       formControlName="name">
     </app-custom-input>
-    @if (form.get('name')?.hasError('required')) {
-      <mat-error>Name is required</mat-error>
-    }
-    @if (form.get('name')?.hasError('minlength')) {
-      <mat-error>Minimum 3 characters</mat-error>
-    }
+
+    <mat-error *ngIf="form.get('name')?.hasError('required')">
+      Name is required
+    </mat-error>
+    <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+      Minimum 3 characters
+    </mat-error>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Category</mat-label>
       <mat-select formControlName="category_id">
-        @for (cat of categories; track cat.id) {
-          <mat-option [value]="cat.id">{{ cat.label }}</mat-option>
-        }
+        <mat-option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.label }}
+        </mat-option>
       </mat-select>
-      @if (form.get('category_id')?.hasError('required')) {
-        <mat-error>Category is required</mat-error>
-      }
+      <mat-error *ngIf="form.get('category_id')?.hasError('required')">
+        Category is required
+      </mat-error>
     </mat-form-field>
 
     <app-custom-input
-      [placeholder]="'Description (Optional)'"
+      placeholder="Description (Optional)"
       formControlName="description">
     </app-custom-input>
   </form>
-</div>
+</mat-dialog-content>
 
-<div mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="dialog-actions">
   <app-button (clicked)="cancel()">Cancel</app-button>
-  <app-button [disabled]="form.invalid" (clicked)="submit()" [primary]="true">Create</app-button>
-</div>
+  <app-button
+    [primary]="true"
+    [disabled]="form.invalid"
+    (clicked)="submit()"
+  >
+    Create
+  </app-button>
+</mat-dialog-actions>

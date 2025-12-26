@@ -30,33 +30,34 @@ import { Question, QuestionType } from '../../../../core/models/question.model';
 import { ConditionRuleEditor } from '../condition-rule-editor/condition-rule-editor';
 import { CustomInput } from '../../../../shared/components/custom-input/custom-input';
 import { Button } from '../../../../shared/components/button/button';
+
 @Component({
   selector: 'app-question-editor',
   standalone: true,
   imports: [
-  CommonModule,
-  ReactiveFormsModule,
+    CommonModule,
+    ReactiveFormsModule,
 
-  // Angular Material
-  MatFormFieldModule,
-  MatInputModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatIconModule,
-  MatCardModule,
-  MatSlideToggleModule,
-  MatTooltipModule,
-  MatExpansionModule,
+    // Angular Material
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatExpansionModule,
 
-  // Pipe
-  TitleCasePipe,
+    // Pipe
+    TitleCasePipe,
 
-  // Custom Components
-  CustomInput,
-  Button,
+    // Custom Components
+    CustomInput,
+    Button,
 
-  ConditionRuleEditor,
-],
+    ConditionRuleEditor,
+  ],
   templateUrl: './question-editor.html',
   styleUrl: './question-editor.scss',
 })
@@ -86,9 +87,9 @@ export class QuestionEditor implements OnInit {
     this.loadQuestion();
   }
 
-  // -------------------------
+  // ------------------------------------------------
   // Load existing question
-  // -------------------------
+  // ------------------------------------------------
   private loadQuestion(): void {
     const assessment = this.assessmentService.getAssessment(this.assessmentId);
     if (!assessment || !assessment.questions) return;
@@ -121,9 +122,9 @@ export class QuestionEditor implements OnInit {
     this.updateOptionsVisibility();
   }
 
-  // -------------------------
+  // ------------------------------------------------
   // Getters
-  // -------------------------
+  // ------------------------------------------------
   get optionsArray(): FormArray {
     return this.form.get('options') as FormArray;
   }
@@ -139,9 +140,24 @@ export class QuestionEditor implements OnInit {
     );
   }
 
-  // -------------------------
+  /**
+   * 🔑 IMPORTANT
+   * Business-level save validation
+   */
+  get canSave(): boolean {
+    if (!this.form.valid) return false;
+
+    if (this.isChoiceType) {
+      return this.optionsArray.length > 0;
+    }
+
+    // short_text
+    return true;
+  }
+
+  // ------------------------------------------------
   // Options handling
-  // -------------------------
+  // ------------------------------------------------
   addOption(): void {
     this.optionsArray.push(
       new FormGroup({
@@ -149,30 +165,40 @@ export class QuestionEditor implements OnInit {
         text: new FormControl('', Validators.required),
       })
     );
+
+    this.form.updateValueAndValidity();
   }
 
   removeOption(index: number): void {
     this.optionsArray.removeAt(index);
+    this.form.updateValueAndValidity();
   }
 
   onTypeChange(): void {
-    if (!this.isChoiceType) {
-      this.optionsArray.clear();
-    }
     this.updateOptionsVisibility();
   }
 
   private updateOptionsVisibility(): void {
-    this.isChoiceType
-      ? this.optionsArray.enable()
-      : this.optionsArray.disable();
+    if (this.isChoiceType) {
+      this.optionsArray.enable();
+
+      // Ensure at least one option exists
+      if (this.optionsArray.length === 0) {
+        this.addOption();
+      }
+    } else {
+      this.optionsArray.clear();
+      this.optionsArray.disable();
+    }
+
+    this.form.updateValueAndValidity();
   }
 
-  // -------------------------
+  // ------------------------------------------------
   // Save
-  // -------------------------
+  // ------------------------------------------------
   save(): void {
-    if (!this.form.valid || !this.currentQuestion) return;
+    if (!this.canSave || !this.currentQuestion) return;
 
     const options = this.isChoiceType
       ? this.optionsArray.getRawValue()

@@ -1,7 +1,7 @@
 /* ================= CONTAINER ================= */
 
 .sidenav-container {
-  height: 100vh;
+  height: 100%;
 }
 
 /* ================= SIDENAV ================= */
@@ -64,7 +64,7 @@
 /* ================= BOTTOM GROUP ================= */
 
 .bottom-section {
-  margin-top: auto; /* pushes both CTA + profile to bottom */
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -73,10 +73,6 @@
 }
 
 /* ================= ACTION BUTTON ================= */
-
-.action-section {
-  padding: 12px 0;
-}
 
 .action-section app-button {
   width: 100%;
@@ -111,11 +107,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.profile-text {
-  display: flex;
-  flex-direction: column;
-}
-
 .profile-text .name {
   font-size: 14px;
   font-weight: 700;
@@ -130,10 +121,14 @@
   text-transform: uppercase;
 }
 
-/* ================= CONTENT ================= */
+/* ================= MAIN CONTENT (SCROLL FIX) ================= */
 
-.content {
-  background-color: #f8f9fa;
+.sidenav-content {
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+
+  /* ✅ space before footer */
+  padding-bottom: 96px;
+
+  background-color: #f8f9fa;
 }

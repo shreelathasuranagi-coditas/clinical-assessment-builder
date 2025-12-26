@@ -3,18 +3,48 @@
 }
 
 mat-paginator {
-  background: transparent;
+  background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
   font-size: 14px;
+  border-top: 2px solid #e9ecef;
+  color: #555;
+  font-weight: 500;
 }
 
 ::ng-deep .mat-paginator-container {
-  padding: 8px 0;
-}
-
-::ng-deep .mat-paginator-range-label {
-  color: rgba(0, 0, 0, 0.6);
+  padding: 12px 24px;
+  height: auto;
+  min-height: 56px;
 }
 
 ::ng-deep .mat-paginator-page-size {
-  margin-right: 8px;
+  margin-right: 24px;
+  align-items: center;
+  gap: 8px;
+
+  .mat-paginator-page-size-label {
+    font-weight: 600;
+    color: #667eea;
+  }
+}
+
+::ng-deep .mat-paginator-range-label {
+  color: #666;
+  font-weight: 500;
+  margin: 0 16px;
+}
+
+::ng-deep .mat-paginator-range-actions {
+  gap: 8px;
+}
+
+::ng-deep .mat-icon-button {
+  color: #667eea;
+
+  &:hover:not(:disabled) {
+    background: rgba(102, 126, 234, 0.1);
+  }
+
+  &:disabled {
+    color: #ccc;
+  }
 }

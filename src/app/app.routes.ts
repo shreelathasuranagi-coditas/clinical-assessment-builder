@@ -29,6 +29,12 @@ export const routes: Routes = [
             .then((m) => m.dashboardRoutes),
       },
       {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile')
+            .then((m) => m.Profile),
+      },
+      {
         path: 'assessment/:id',
         children: [
           {

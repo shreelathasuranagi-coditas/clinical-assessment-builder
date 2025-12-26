@@ -1,19 +1,24 @@
 <div class="assessment-list-container">
   <div class="header">
-    <h1>Assessments</h1>
-    <app-button (clicked)="openCreateDialog()" [primary]="true">
-      <mat-icon>add</mat-icon>
-      Create New Assessment
+  <h1>Assessments</h1>
+
+  <div class="header-actions">
+    <app-button
+      class="create-assessment-btn"
+      [primary]="true"
+      (clicked)="createAssessment()"
+    >
+      Create Assessment
     </app-button>
   </div>
+</div>
+
 
   @if (assessments().length === 0) {
     <div class="empty-state">
       <mat-icon>folder_open</mat-icon>
       <p>No assessments yet</p>
-      <app-button (clicked)="openCreateDialog()" [primary]="true">
-        Create Your First Assessment
-      </app-button>
+      <p class="hint">Use the "Create Assessment" button in the sidebar to create your first assessment.</p>
     </div>
   } @else {
     <div class="table-wrapper">

@@ -1,0 +1,90 @@
+<div class="profile-container">
+  <!-- Header -->
+  <div class="profile-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>User Profile</h1>
+  </div>
+
+  @if (currentUser()) {
+    <!-- Profile Card -->
+    <mat-card class="profile-card">
+      <mat-card-content>
+        <!-- Avatar Section -->
+        <div class="avatar-section">
+          <div class="avatar">
+            <mat-icon class="avatar-icon">account_circle</mat-icon>
+          </div>
+          <div class="user-greeting">
+            <h2>{{ currentUser()?.name }}</h2>
+            <p class="role-badge">
+              <mat-icon class="role-icon">{{ getRoleIcon() }}</mat-icon>
+              {{ getRoleDisplay() }}
+            </p>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- User Details -->
+        <div class="details-section">
+          <h3>Account Information</h3>
+
+          <div class="info-group">
+            <label>Full Name</label>
+            <p class="info-value">{{ currentUser()?.name }}</p>
+          </div>
+
+          <div class="info-group">
+            <label>Email Address</label>
+            <p class="info-value">{{ currentUser()?.email }}</p>
+          </div>
+
+          <div class="info-group">
+            <label>User Role</label>
+            <p class="info-value">{{ getRoleDisplay() }}</p>
+          </div>
+
+          @if (currentUser()?.id) {
+            <div class="info-group">
+              <label>User ID</label>
+              <p class="info-value">{{ currentUser()?.id }}</p>
+            </div>
+          }
+
+          @if (currentUser()?.created_at) {
+            <div class="info-group">
+              <label>Account Created</label>
+              <p class="info-value">{{ currentUser()?.created_at | date: 'long' }}</p>
+            </div>
+          }
+
+          @if (currentUser()?.updated_at) {
+            <div class="info-group">
+              <label>Last Updated</label>
+              <p class="info-value">{{ currentUser()?.updated_at | date: 'long' }}</p>
+            </div>
+          }
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Actions -->
+        <div class="actions-section">
+          <app-button (clicked)="logout()" class="logout-btn">
+            <mat-icon>logout</mat-icon>
+            Logout
+          </app-button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card class="empty-state-card">
+      <mat-card-content>
+        <mat-icon>error</mat-icon>
+        <p>Unable to load user profile</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

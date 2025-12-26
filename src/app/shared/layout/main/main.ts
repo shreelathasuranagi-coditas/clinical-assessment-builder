@@ -1,23 +1,23 @@
 import { Component, viewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Toolbar } from '../../components/toolbar/toolbar';
-import { Button } from '../../components/button/button';
 import { Header } from '../header/header';
 import { Sidenav } from '../../components/sidenav/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from '../footer/footer';
 import { CreateAssessment } from '../../../features/dashboard/create-assessment/create-assessment';
+import { AssessmentService } from '../../../core/services/assessment-service';
 
 @Component({
   selector: 'app-main',
-  imports: [Toolbar,Button,Header,Sidenav,RouterOutlet,Footer],
+  imports: [Header,Sidenav,RouterOutlet,Footer],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
 export class Main {
   private router = inject(Router);
   private dialog = inject(MatDialog);
+  private assessmentService = inject(AssessmentService);
   sidenav = viewChild(Sidenav);
 
   toggleSidebar() {
@@ -30,7 +30,8 @@ export class Main {
       disableClose: false,
     }).afterClosed().subscribe((result) => {
       if (result) {
-        // The dialog handles navigation after creation
+        const assessment = this.assessmentService.createAssessment(result);
+        this.router.navigate(['/assessment', assessment.assessment_id, 'details']);
       }
     });
   }

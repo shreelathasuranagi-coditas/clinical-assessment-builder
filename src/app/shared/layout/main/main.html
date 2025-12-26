@@ -1,9 +1,8 @@
 <app-header
-  (toggleSidebar)="toggleSidebar()"
-  (createAssessment)="onCreateAssessment()">
+  (toggleSidebar)="toggleSidebar()">
 </app-header>
 
-<app-sidenav #sidenav>
+<app-sidenav #sidenav (createAssessment)="onCreateAssessment()">
   <router-outlet></router-outlet>
 </app-sidenav>
 

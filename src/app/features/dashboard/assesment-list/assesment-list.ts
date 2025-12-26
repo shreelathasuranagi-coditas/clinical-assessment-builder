@@ -1,17 +1,22 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AssessmentService } from '../../../core/services/assessment-service';
 import { Assessment } from '../../../core/models/assessment.model';
-import { Button } from '../../../shared/components/button/button';
-import { CreateAssessment } from '../create-assessment/create-assessment';
 import { ConfirmationModal } from '../../../shared/components/confirmation-modal/confirmation-modal';
+import { CreateAssessment } from '../create-assessment/create-assessment';
+import { Button } from '../../../shared/components/button/button';
 
 @Component({
   selector: 'app-assesment-list',
@@ -22,8 +27,8 @@ import { ConfirmationModal } from '../../../shared/components/confirmation-modal
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
+    MatDialogModule,
     Button,
-    ConfirmationModal,
   ],
   templateUrl: './assesment-list.html',
   styleUrl: './assesment-list.scss',
@@ -51,21 +56,44 @@ export class AssesmentList {
     4: 'Other',
   };
 
-  openCreateDialog(): void {
-    this.dialog.open(CreateAssessment, {
-      width: '500px',
-      disableClose: false,
-    }).afterClosed().subscribe((result) => {
-      if (result) {
-        const assessment = this.assessmentService.createAssessment(result);
-        this.router.navigate(['/assessment', assessment.assessment_id, 'builder']);
-      }
-    });
+  // ---------------------------
+  // Create (DIALOG — SAME AS SIDENAV)
+  // ---------------------------
+  createAssessment(): void {
+    this.dialog
+      .open(CreateAssessment, {
+        width: '500px',
+        disableClose: false,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          const assessment =
+            this.assessmentService.createAssessment(result);
+
+          this.router.navigate([
+            '/assessment',
+            assessment.assessment_id,
+            'details',
+          ]);
+        }
+      });
   }
 
-
   editAssessment(assessmentId: string): void {
-    this.router.navigate(['/assessment', assessmentId, 'details']);
+    this.router.navigate([
+      '/assessment',
+      assessmentId,
+      'details',
+    ]);
+  }
+
+  previewAssessment(assessmentId: string): void {
+    this.router.navigate([
+      '/assessment',
+      assessmentId,
+      'preview',
+    ]);
   }
 
   deleteAssessment(assessmentId: string): void {
@@ -73,20 +101,17 @@ export class AssesmentList {
       width: '400px',
       data: {
         title: 'Delete Assessment',
-        message: 'Are you sure you want to delete this assessment? This action cannot be undone.',
+        message:
+          'Are you sure you want to delete this assessment? This action cannot be undone.',
         confirmText: 'Delete',
         cancelText: 'Cancel',
       },
     });
-    
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
         this.assessmentService.deleteAssessment(assessmentId);
       }
     });
-  }
-
-  previewAssessment(assessmentId: string): void {
-    this.router.navigate(['/assessment', assessmentId, 'preview']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -16,7 +16,13 @@ export class Sidenav {
     @ViewChild(MatSidenav)
   private sidenav!: MatSidenav;
 
+  createAssessment = output<void>();
+
   toggle() {
     this.sidenav.toggle();
+  }
+
+  onNavItemClick() {
+    this.sidenav.close();
   }
 }

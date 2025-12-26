@@ -3,18 +3,26 @@
   padding: 0 24px;
   display: flex;
   align-items: center;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+  border-bottom: 1px solid #e8eef5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .menu-btn {
   margin-right: 16px;
+  color: #2196f3;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #1976d2;
+  }
 }
 
 .app-title {
-  font-size: 18px;
-  font-weight: 500;
-  color: #2c2c2c;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
 }
 
 .spacer {

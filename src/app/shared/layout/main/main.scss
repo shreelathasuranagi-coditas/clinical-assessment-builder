@@ -6,14 +6,16 @@
   app-header {
     flex-shrink: 0;
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   app-sidenav {
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   app-footer {
     flex-shrink: 0;
+    border-top: 1px solid #e0e0e0;
   }
 }

@@ -14,7 +14,7 @@ import { AuthService } from '../../../core/services/auth-service';
 })
 export class Login {
   router = inject(Router);
-  authService = inject(AuthService)
+  authService = inject(AuthService);
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),

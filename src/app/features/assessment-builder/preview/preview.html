@@ -19,7 +19,7 @@
         <mat-icon>hourglass_empty</mat-icon>
         <p>Loading assessment...</p>
       </div>
-    } @else if (!assessment()!.questions || assessment()!.questions.length === 0) {
+    } @else if (!assessment()!.questions || assessment()!.questions?.length === 0) {
       <div class="empty-state">
         <mat-icon>info</mat-icon>
         <p>No questions available in this assessment.</p>

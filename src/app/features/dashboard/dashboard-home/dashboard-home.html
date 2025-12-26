@@ -1,0 +1,109 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Overview of your assessments</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <!-- Total Assessments Card -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon total">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Total Assessments</h3>
+          <p class="stat-number">{{ totalAssessments() }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Draft Assessments Card -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon draft">
+          <mat-icon>edit</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Draft</h3>
+          <p class="stat-number">{{ draftAssessments() }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Published Assessments Card -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon published">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Published</h3>
+          <p class="stat-number">{{ publishedAssessments() }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Recently Created Assessments Section -->
+  <div class="recent-assessments-section">
+    <div class="section-header">
+      <h2>Recently Created</h2>
+      @if (assessments().length > 5) {
+        <app-button (clicked)="viewAllAssessments()">
+          View All
+        </app-button>
+      }
+    </div>
+
+    @if (recentAssessments().length === 0) {
+      <mat-card class="empty-state-card">
+        <mat-card-content>
+          <mat-icon>folder_open</mat-icon>
+          <p>No assessments yet</p>
+          <p class="hint">Use the "Create Assessment" button in the sidebar to get started.</p>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <div class="table-container">
+        <table class="assessments-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (assessment of recentAssessments(); track assessment.assessment_id) {
+              <tr>
+                <td class="name-cell">
+                  <strong>{{ assessment.name }}</strong>
+                </td>
+                <td>{{ categoryMap[assessment.category_id] || 'Unknown' }}</td>
+                <td>
+                  <span [class]="'status-badge ' + getStatusBadgeClass(assessment.status)">
+                    {{ assessment.status }}
+                  </span>
+                </td>
+                <td>{{ assessment.created_at | date: 'short' }}</td>
+                <td class="actions-cell">
+                  <button class="icon-btn" (click)="editAssessment(assessment.assessment_id)" title="Edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button class="icon-btn" (click)="previewAssessment(assessment.assessment_id)" title="Preview">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
